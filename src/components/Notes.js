@@ -5,7 +5,7 @@ import AddNote from "./AddNote";
 import { useNavigate } from "react-router-dom";
 const Notes = (props) => {
   const context = useContext(noteContext);
-  const { notes, getNotes, editNote } = context;
+  const { notes, editNote , getNotes } = context;
   const initialvalue = [{
     id:"",etitle: "", edescription: "", etag: "default" 
   }]

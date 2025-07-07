@@ -4,28 +4,31 @@ const Login = (props) => {
   const host = "http://localhost:5000"
   let navigate = useNavigate()
   const [credentials,setCredentials] = useState({email:"",password:""})
-  const handleSubmit = async(e) =>
-    {
-        e.preventDefault();
-        const response = await fetch(`${host}/api/auth/login`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({email:credentials.email,password:credentials.password}),
-        });
-        const json = await response.json();
-        console.log(json);
-        if(json.sucess){
-          //redirect
-          localStorage.setItem('token',json.authToken)
-          props.showAlert("Account LoggedIn Sucessfully","success")
-          navigate("/")
-        }
-        else{
-          props.showAlert("Invalid Credentials","danger")
-        }
-    }
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const response = await fetch(`${host}/api/auth/login`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      email: credentials.email,
+      password: credentials.password,
+    }),
+  });
+
+  const json = await response.json();
+  console.log(json);
+
+  if (json.success) {
+    localStorage.setItem("token", json.authToken);
+    props.showAlert("Account Logged In Successfully", "success");
+    navigate("/");
+  } else {
+    props.showAlert("Invalid Credentials", "danger");
+  }
+};
+
     const onchange = (e) => {
       setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }

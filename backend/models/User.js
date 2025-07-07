@@ -19,6 +19,10 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    isAdmin: { 
+        type: Boolean, 
+        default: false
+     } // ✅ Add this
   });
 const User = mongoose.model('user',UserSchema);
 User.createIndexes();

@@ -1,16 +1,52 @@
 const connectToMongo = require('./db');
 connectToMongo();
-const express = require('express')
-var cors = require('cors')
-const app = express()
-const port = 5000
-app.use(cors())
+
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
+
+app.use(cors());
 app.use(express.json());
 
-//available routes
-app.use('/api/auth',require('./routes/auth'));
-app.use('/api/notes',require('./routes/notes'));
+const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
-})
+// 👇 Create HTTP server manually
+const server = http.createServer(app);
+
+// 👇 Attach Socket.IO to server
+const io = new Server(server, {
+  cors: {
+    origin: "*", // for development; restrict in production
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  }
+});
+
+// 👇 Real-time socket connection logic
+io.on("connection", (socket) => {
+  console.log("⚡ A user connected");
+
+  socket.on("note_updated", (data) => {
+    // Broadcast to all other clients
+    socket.broadcast.emit("note_updated", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("❌ A user disconnected");
+  });
+});
+
+// 👇 Attach Socket.IO to app for optional usage in routes
+app.set("socketio", io);
+
+// 👇 Your existing API routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/notes', require('./routes/notes'));
+app.use('/api/activity', require('./routes/activity'));
+
+
+// 👇 Start the server (with socket)
+server.listen(port, () => {
+  console.log(`🚀 Server running on http://localhost:${port}`);
+});
