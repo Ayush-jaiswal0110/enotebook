@@ -5,8 +5,9 @@ import { io } from "socket.io-client";
 let socket; // global socket instance
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
-  const notesInitial = [];
+  const host = process.env.REACT_APP_API_URL ||  "http://localhost:5000";
+
+  //const notesInitial = []; 
   const [notes, setNotes] = useState([]);
 
   // Get all notes

@@ -7,19 +7,10 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 
+const port = process.env.PORT || 5000; // ✅ Moved up
+
 app.use(cors());
 app.use(express.json());
-
-//available routes
-app.use('/api/auth',require('./routes/auth'));
-app.use('/api/notes',require('./routes/notes'));
-
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
-})
-
-
-const port = process.env.PORT || 5000;
 
 // 👇 Create HTTP server manually
 const server = http.createServer(app);
@@ -37,7 +28,6 @@ io.on("connection", (socket) => {
   console.log("⚡ A user connected");
 
   socket.on("note_updated", (data) => {
-    // Broadcast to all other clients
     socket.broadcast.emit("note_updated", data);
   });
 
@@ -46,16 +36,15 @@ io.on("connection", (socket) => {
   });
 });
 
-// 👇 Attach Socket.IO to app for optional usage in routes
+// 👇 Attach Socket.IO to app
 app.set("socketio", io);
 
-// 👇 Your existing API routes
+// 👇 API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'));
 app.use('/api/activity', require('./routes/activity'));
 
-
-// 👇 Start the server (with socket)
+// 👇 Start the server (use `server`, not `app`)
 server.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
 });

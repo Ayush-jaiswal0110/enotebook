@@ -1,15 +1,20 @@
 const mongoose = require("mongoose");
-const mongoose_URI = "mongodb+srv://ayush:Pranjal%403105@cluster0.6amg2no.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-//mongodb+srv://ayush:Pranjal%403105@cluster0.6amg2no.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+require('dotenv').config(); // ✅ Load .env variables early
+
+
+const MONGO_URI = process.env.MONGO_URI;
 
 const connectToMongo = async () => {
   try {
-    await mongoose.connect(mongoose_URI);
-    console.log("Connected to MongoDB successfully!");
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log("✅ Connected to MongoDB Atlas successfully!");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1); // exit app if DB fails
   }
 };
 
 module.exports = connectToMongo;
-
