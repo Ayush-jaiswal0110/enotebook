@@ -2,14 +2,10 @@ import noteContext from "./noteContext";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
-let socket;
+let socket; // global socket instance
 
 const NoteState = (props) => {
-  const host =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:5000"
-      : process.env.REACT_APP_API_URL;
-
+  const host = process.env.REACT_APP_API_URL;
   const [notes, setNotes] = useState([]);
 
   // ✅ Fetch all notes
@@ -29,12 +25,12 @@ const NoteState = (props) => {
     }
   };
 
-  // ✅ Establish WebSocket connection if logged in
+  // ✅ Connect to Socket.IO only after login
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       socket = io(host, {
-        transports: ["websocket", "polling"], // important for cross-platform support
+        transports: ["websocket", "polling"], // ✅ compatibility
         withCredentials: true,
       });
 
@@ -43,8 +39,8 @@ const NoteState = (props) => {
       });
 
       socket.on("note_updated", () => {
-        console.log("📡 Note updated via socket");
-        getNotes();
+        console.log("📡 Note update received via socket");
+        getNotes(); // Refresh notes
       });
 
       return () => {
@@ -54,7 +50,7 @@ const NoteState = (props) => {
     }
   }, [host]);
 
-  // ✅ Add a note
+  // ✅ Add a new note
   const addNote = async (title, description, tag, assignedTo) => {
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",
@@ -82,7 +78,7 @@ const NoteState = (props) => {
     socket?.emit("note_updated");
   };
 
-  // ✅ Edit a note
+  // ✅ Edit a note (full update support)
   const editNote = async (id, title, description, tag, status, priority, assignedTo) => {
     await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: "PUT",
@@ -93,7 +89,7 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag, status, priority, assignedTo }),
     });
 
-    getNotes();
+    getNotes(); // Fetch fresh state
     socket?.emit("note_updated");
   };
 
