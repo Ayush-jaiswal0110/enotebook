@@ -11,7 +11,7 @@ const Noteitem = (props) => {
   // ✅ Get current logged-in user info
   useEffect(() => {
     const getUser = async () => {
-      const res = await fetch("http://localhost:5000/api/auth/getuser", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/getuser`, {
         method: "POST",
         headers: {
           "auth-token": localStorage.getItem("token"),

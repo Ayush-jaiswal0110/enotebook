@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 
+// Get backend URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
+
 const ActivityLog = () => {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchLogs = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/activity/logs", {
+      const response = await fetch(`${API_URL}/api/activity/logs`, {
         headers: {
           "auth-token": localStorage.getItem("token"),
         },

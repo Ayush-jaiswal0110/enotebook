@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import noteContext from "../context/notes/noteContext";
 
+// Get backend URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
 const AddNote = (props) => {
   const context = useContext(noteContext);
   const { addNote } = context;
@@ -21,7 +23,7 @@ const AddNote = (props) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/users", {
+      const response = await fetch(`${API_URL}/api/auth/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

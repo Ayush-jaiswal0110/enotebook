@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import noteContext from "../context/notes/noteContext";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000"); // your backend Socket.IO server
+// ✅ Load Socket.IO from backend based on environment
+const SOCKET_URL = process.env.REACT_APP_API_URL;
+const socket = io(SOCKET_URL);
 
 const KanbanBoard = () => {
   const { notes, getNotes, editNote } = useContext(noteContext);
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
-    // Fetch current user
     const fetchCurrentUser = async () => {
-      const res = await fetch("http://localhost:5000/api/auth/getuser", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/getuser`, {
         method: "POST",
         headers: {
           "auth-token": localStorage.getItem("token"),
@@ -25,23 +26,20 @@ const KanbanBoard = () => {
     fetchCurrentUser();
     getNotes();
 
-    // 🔁 Real-time update listener
     socket.on("note-updated", () => {
       console.log("🔄 Note updated via Socket.IO");
-      getNotes(); // Refresh notes live
+      getNotes();
     });
 
-    // Cleanup on unmount
     return () => {
       socket.disconnect();
     };
-
     // eslint-disable-next-line
   }, []);
 
   const onStatusChange = async (note, newStatus) => {
     await editNote(note._id, note.title, note.description, note.tag, newStatus);
-    socket.emit("note_updated", { noteId: note._id }); // Notify others
+    socket.emit("note_updated", { noteId: note._id });
   };
 
   const renderRow = (note) => {
