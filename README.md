@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# 📘 Enotebook - MERN Stack Assignment Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Enotebook is a task management and note-taking web app built using the **MERN stack (MongoDB, Express.js, React, Node.js)**. It supports role-based access (Admin & Users), real-time updates via **Socket.IO**, smart task assignment, and a visually interactive **Kanban Board**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Live Demo
 
-### `npm start`
+- **Frontend:** [https://enotebook-1bgq.onrender.com](https://enotebook-1bgq.onrender.com)
+- **Backend API:** [https://enotebook-backend-przl.onrender.com](https://enotebook-backend-przl.onrender.com)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🧠 Features
 
-### `npm test`
+| Feature                     | Description                                                                 |
+|----------------------------|-----------------------------------------------------------------------------|
+| 📝 Notes CRUD              | Create, edit, delete notes                                                  |
+| 🧑‍🤝‍🧑 Role-based access     | Admin can view all notes, users see assigned ones                          |
+| 📤 Assign tasks             | Admin can assign notes to users                                            |
+| 🎯 Status tracking         | Notes can be moved between Todo, In Progress, Done                         |
+| 🪄 Smart assignment         | Assign note to least busy user (based on task count)                       |
+| ✅ Real-time sync           | Live updates via Socket.IO (no page refresh needed)                        |
+| 📊 Kanban board            | Visual representation of note statuses with emojis                         |
+| 📜 Activity Logs           | Admins can view who performed what action and when                         |
+| 🔐 JWT Auth                | Login/signup with token-based authentication                               |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🛠️ Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Frontend:** React, Bootstrap
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB Atlas
+- **Authentication:** JWT (JSON Web Token)
+- **Real-time:** Socket.IO
+- **Deployment:** Render (Backend), Vercel (Frontend)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📁 Folder Structure
 
-### `npm run eject`
+```
+/enotebook
+├── backend
+│   ├── routes/
+│   ├── models/
+│   ├── middleware/
+│   ├── .env
+│   ├── index.js
+│   └── db.js
+├── frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   └── App.js
+│   ├── .env
+│   ├── package.json
+└── README.md
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ⚙️ Environment Variables
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 📦 Backend `.env`
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 💻 Frontend `.env`
+```
+REACT_APP_API_URL=https://enotebook-backend-przl.onrender.com
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🔧 Installation (Local Setup)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Clone the repo
+git clone https://github.com/Ayush-jaiswal0110/enotebook
 
-### Code Splitting
+# Navigate to backend
+cd backend
+npm install
+node index.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Open another terminal for frontend
+cd ..
+npm install
+npm start
+```
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 👨‍🏫 Assignment Requirements (Status)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+| Requirement               | Status     |
+|--------------------------|------------|
+| User Auth (JWT)          | ✅ Completed |
+| CRUD Operations          | ✅ Completed |
+| Real-time Updates        | ✅ Completed |
+| Smart Assignment         | ✅ Completed |
+| Activity Log             | ✅ Completed |
+| Admin-only Privileges    | ✅ Completed |
+| Deployed Version         | ✅ Live      |
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 👨‍💻 Developed By
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Ayush Jaiswal**  
+Integrated MCA – IIPS DAVV  
+GitHub: [@Ayush-jaiswal0110](https://github.com/Ayush-jaiswal0110)
